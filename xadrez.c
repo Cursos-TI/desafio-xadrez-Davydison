@@ -4,59 +4,77 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
-int main() {
-    // Número de casas a serem movidas (pré-definidos)
-    int casasTorre = 5;
-    int casasBispo = 5;
-    int casasRainha = 8;
+oid moverTorre(int passo, int total) {
+    if (passo > total) return;
+    printf("Passo %d: Direita\n", passo);
+    moverTorre(passo + 1, total);
+}
 
-    // ----------------------------------
-    // Movimento da Torre (FOR)
-    // ----------------------------------
-    printf("Movimento da Torre (5 casas para a Direita):\n");
-    for (int i = 1; i <= casasTorre; i++) {
-        printf("Passo %d: Direita\n", i);
+// Rainha: movimento para Esquerda
+void moverRainha(int passo, int total) {
+    if (passo > total) return;
+    printf("Passo %d: Esquerda\n", passo);
+    moverRainha(passo + 1, total);
+}
+
+// Bispo: movimento diagonal (Cima Direita) com recursão + loops aninhados
+void moverBispo(int linhaAtual, int totalLinhas) {
+    if (linhaAtual > totalLinhas) return;
+
+    for (int colunaAtual = 1; colunaAtual <= 1; colunaAtual++) { // apenas um passo horizontal por iteração
+        printf("Passo %d: Cima Direita\n", linhaAtual);
     }
 
-    // ----------------------------------
-    // Movimento do Bispo (WHILE)
-    // ----------------------------------
-    printf("\nMovimento do Bispo (5 casas na Diagonal: Cima Direita):\n");
-    int i = 1;
-    while (i <= casasBispo) {
-        printf("Passo %d: Cima Direita\n", i);
-        i++;
-    }
+    moverBispo(linhaAtual + 1, totalLinhas);
+}
 
-    // ----------------------------------
-    // Movimento da Rainha (DO-WHILE)
-    // ----------------------------------
-    printf("\nMovimento da Rainha (8 casas para a Esquerda):\n");
-    int j = 1;
-    do {
-        printf("Passo %d: Esquerda\n", j);
-        j++;
-    } while (j <= casasRainha);
+// --------- Função com loops complexos ---------
 
-    // ----------------------------------
-    // Movimento do Cavalo (FOR + WHILE)
-    // ----------------------------------
-    // O Cavalo se move em L: 2 casas para baixo e 1 para esquerda
-    printf("\nMovimento do Cavalo (2 casas para Baixo e 1 para Esquerda):\n");
+// Cavalo: movimento em L (2 para cima e 1 para direita) com loops aninhados
+void moverCavalo() {
+    printf("\nMovimento do Cavalo (2 casas para Cima e 1 para Direita):\n");
 
-    int movimentos = 1; // apenas uma simulação de movimento em L
-    for (int k = 1; k <= movimentos; k++) {
-        int passo = 1;
-        
-        // Loop WHILE para 2 movimentos para baixo
-        while (passo <= 2) {
-            printf("Passo %d: Baixo\n", passo);
-            passo++;
+    int maxMovimentos = 1; // número de vezes que o cavalo faz o L
+    for (int m = 1; m <= maxMovimentos; m++) {
+        int cima = 0;
+        while (cima < 2) {
+            if (cima == 1) {
+                cima++;
+                continue; // simula algum controle no movimento (exemplo ilustrativo)
+            }
+            printf("Passo %d: Cima\n", cima + 1);
+            cima++;
         }
 
-        // Movimento para esquerda (após os 2 baixos)
-        printf("Passo %d: Esquerda\n", passo);  // passo == 3
+        // Após o loop vertical
+        for (int dir = 1; dir <= 1; dir++) {
+            printf("Passo 3: Direita\n");
+            break; // já fez o movimento da direita
+        }
     }
-    
+}
+
+// --------- Função principal ---------
+
+int main() {
+    int passosTorre = 5;
+    int passosBispo = 5;
+    int passosRainha = 8;
+
+    // Torre com recursão
+    printf("Movimento da Torre (5 casas para a Direita):\n");
+    moverTorre(1, passosTorre);
+
+    // Bispo com recursão + loop interno
+    printf("\nMovimento do Bispo (5 casas na Diagonal: Cima Direita):\n");
+    moverBispo(1, passosBispo);
+
+    // Rainha com recursão
+    printf("\nMovimento da Rainha (8 casas para a Esquerda):\n");
+    moverRainha(1, passosRainha);
+
+    // Cavalo com loops complexos
+    moverCavalo();
+
     return 0;
 }
